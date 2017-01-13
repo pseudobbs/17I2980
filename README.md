@@ -1,2 +1,2 @@
 # 17I2980
-UNO CSCI 2980, Graphics in Javaw Spring 2017
+UNO CSCI 2980, Graphics in Java Spring 2017
