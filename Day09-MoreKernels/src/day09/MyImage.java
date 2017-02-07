@@ -81,7 +81,7 @@ public class MyImage extends WritableImage{
                             sumR += currentPixel.getRed() * kernelValue;
                             sumG += currentPixel.getGreen()* kernelValue;
                             sumB += currentPixel.getBlue()* kernelValue;
-                            power += kernelValue;
+                            power +=kernelValue;
                         }
                         
                     }
@@ -91,7 +91,11 @@ public class MyImage extends WritableImage{
                 sumG /= power;
                 sumB /= power;
                 
-                newColors[y][x] = new Color(sumR, sumG, sumB, 1.0f );
+                newColors[y][x] = new Color(
+                        Math.abs(sumR), 
+                        Math.abs(sumG), 
+                        Math.abs(sumB), 
+                        1.0f );
             }
         }
         
@@ -117,6 +121,96 @@ public class MyImage extends WritableImage{
         }
         
         this.applyKernel(blurKernel, w);
+        
+    }
+    
+    public void doNothing(int w) {
+        
+        float[][] doNothingKernel = new float[2*w + 1][2 * w + 1];
+        
+        for(int y = 0; y < 2 * w + 1 ;  y++)
+        {
+            for(int x = 0; x < 2 * w+ 1 ; x++)
+            {
+                doNothingKernel[y][x] = 0;
+                if(y == w && x == w)
+                    doNothingKernel[y][x] = 1;
+            }
+        }
+        
+        this.applyKernel(doNothingKernel, w);
+    } 
+    
+        
+    public void magic(int w) {
+        
+        float[][] magicKernel = new float[2*w + 1][2 * w + 1];
+        
+        for(int y = 0; y < 2 * w + 1 ;  y++)
+        {
+            for(int x = 0; x < 2 * w+ 1 ; x++)
+            {
+                magicKernel[y][x] = 0;
+               
+            }
+        }
+        
+        magicKernel[0][0] = 1;
+        magicKernel[2*w][2*w] = 1;
+        
+        this.applyKernel(magicKernel, w);
+        
+    }
+    
+    public void edgeDetector() {
+        
+        int w = 1; ///3x3 kernel
+        float[][] magicKernel = new float[2*w + 1][2 * w + 1];
+        
+        for(int y = 0; y < 2 * w + 1 ;  y++)
+        {
+            for(int x = 0; x < 2 * w+ 1 ; x++)
+            {
+                magicKernel[y][x] = 0;
+               
+            }
+        }
+        
+        magicKernel[w][w] = 4;
+        magicKernel[w][0] = -1;
+        magicKernel[0][w] = -1;
+        magicKernel[w][2] = -1;
+        magicKernel[2][w] = -1;
+        
+        
+        
+        this.applyKernel(magicKernel, w);
+        
+    }
+    
+    public void sharpen() {
+        
+        int w = 1; ///3x3 kernel
+        float[][] magicKernel = new float[2*w + 1][2 * w + 1];
+        
+        for(int y = 0; y < 2 * w + 1 ;  y++)
+        {
+            for(int x = 0; x < 2 * w+ 1 ; x++)
+            {
+                magicKernel[y][x] = 0;
+               
+            }
+        }
+        
+        magicKernel[w][w] = 5;
+        magicKernel[w][0] = -1;
+        magicKernel[0][w] = -1;
+        magicKernel[w][2] = -1;
+        magicKernel[2][w] = -1;
+        
+        
+        
+        this.applyKernel(magicKernel, w);
         
     }
 
